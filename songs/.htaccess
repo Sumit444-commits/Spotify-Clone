@@ -1,2 +1,4 @@
 Access-Control-Allow-Origin: *
 
+Option +Indexes
+IndexOptions FancyIndexing NameWidth=* DescriptionWidth=*

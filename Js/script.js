@@ -6,7 +6,7 @@ let currFolder;
 // returns the list of songs
 async function getSongs(folder) {
     currFolder = folder;
-    let a = await fetch(`http://127.0.0.1:3000/${folder}/`);
+    let a = await fetch(`/${folder}/`);
     let response = await a.text();
     let div = document.createElement("div")
     div.innerHTML = response;
@@ -79,7 +79,7 @@ function convertSecondsToMinutes(seconds) {
 
 async function displayAlbums() {
     try {
-        let a = await fetch(`http://127.0.0.1:3000/songs/`);
+        let a = await fetch(`/songs/`);
         let response = await a.text();
         let div = document.createElement("div");
         div.innerHTML = response;
@@ -91,7 +91,7 @@ async function displayAlbums() {
             const e = array[index];
             if (e.href.includes("/songs")) {
                 let folder = e.href.split("/").slice(-2)[0];
-                let infoFetch = await fetch(`http://127.0.0.1:3000/songs/${folder}/info.json`);
+                let infoFetch = await fetch(`/songs/${folder}/info.json`);
                 
                 // Error handling for JSON parsing
                 let response;

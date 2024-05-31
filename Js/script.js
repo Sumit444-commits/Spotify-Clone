@@ -1,26 +1,27 @@
 let currentSong = new Audio;
 let songs;
-let songs2;
 let currFolder;
 
 // returns the list of songs
 async function getSongs(folder) {
     currFolder = folder;
     let a = await fetch(`/${folder}/`);
+    // a = "https://cors.iamnd.eu.org/?url="+a;
     let response = await a.text();
     let div = document.createElement("div")
     div.innerHTML = response;
     let as = div.getElementsByTagName("a")
     songs = []
-    songs2 = []
+   
     for (let index = 0; index < as.length; index++) {
         const element = as[index];
         if (element.href.endsWith(".mp3")) {
             songs.push(element.href.split(`/${folder}/`)[1]);
-            songs2.push(element.href.split(`/${folder}/`)[0]);
+          
         }
     }
-
+  
+    
 
     let songUl = document.querySelector(".songlist").getElementsByTagName("ul")[0];
     songUl.innerHTML = ""
@@ -40,7 +41,7 @@ async function getSongs(folder) {
     Array.from(document.querySelector(".songlist").getElementsByTagName("li")).forEach(e => {
         e.addEventListener("click", element => {
             
-            playMusic(songs2[0], e.querySelector(".info").firstElementChild.innerHTML.trim())
+            playMusic( e.querySelector(".info").firstElementChild.innerHTML.trim())
 
 
         })
@@ -50,9 +51,9 @@ async function getSongs(folder) {
 
 
 
-const playMusic = (trackStart, track, pause = false) => {
-    // let audio =  new Audio(trackStart+"/songs/" + track)
-    currentSong.src = trackStart + `/${currFolder}/` + track;
+const playMusic = ( track, pause = false) => {
+    
+    currentSong.src =  `/${currFolder}/` + track;
     if (!pause) {
         currentSong.play();
         play.src = "imgs/pause.svg"
@@ -80,6 +81,7 @@ function convertSecondsToMinutes(seconds) {
 async function displayAlbums() {
     try {
         let a = await fetch(`/songs/`);
+        // a = "https://cors.iamnd.eu.org/?url="+a;
         let response = await a.text();
         let div = document.createElement("div");
         div.innerHTML = response;
@@ -92,7 +94,7 @@ async function displayAlbums() {
             if (e.href.includes("/songs")) {
                 let folder = e.href.split("/").slice(-2)[0];
                 let infoFetch = await fetch(`/songs/${folder}/info.json`);
-                
+                // infoFetch = "https://cors.iamnd.eu.org/?url="+infoFetch;
                 // Error handling for JSON parsing
                 let response;
                 try {
@@ -122,7 +124,7 @@ async function displayAlbums() {
         Array.from(document.getElementsByClassName("card")).forEach(e => {
             e.addEventListener("click", async item => {
              songs =  await getSongs(`songs/${item.currentTarget.dataset.folder}`);
-                playMusic(songs2[0],songs[0])
+                playMusic(songs[0])
 
 
             });
@@ -141,7 +143,7 @@ async function main() {
     // lists of songs
     await getSongs("songs/Arjit");
 
-    playMusic(songs2[0], songs[0], true)
+    playMusic( songs[0], true)
 
     // Display all the albums on the page
     displayAlbums()
@@ -188,7 +190,7 @@ async function main() {
 
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0])
         if (index - 1 >= 0) {
-            playMusic(songs2[0], songs[index - 1])
+            playMusic( songs[index - 1])
         }
 
     })
@@ -198,7 +200,7 @@ async function main() {
  
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0])
         if (index + 1 < songs.length) {
-            playMusic(songs2[0], songs[index + 1])
+            playMusic(songs[index + 1])
         }
     })
 

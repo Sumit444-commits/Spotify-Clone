@@ -181,9 +181,7 @@ body {
     filter: invert(1);
     width: 70vw;
     min-height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  
 }
 
 .seekbar {

@@ -1,2 +1,2 @@
-Option +Indexes
-IndexOptions FancyIndexing NameWidth=* DescriptionWidth=*
+Access-Control-Allow-Origin: *
+
